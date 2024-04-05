@@ -1,123 +1,78 @@
+
 #include <windows.h>
 #include <winuser.h>
 
+#include <ShlObj.h>
 #include <fstream>
 #include <vector>
-
+#include <locale>
+#include <conio.h>
 #include <iostream>
 
-std::ifstream file("./test.txt"); // 替换为你的文件路径
-std::vector<char> charArray;
-
-INPUT inputs[4];
-
-bool
-Test_for_shift(char c)
-{
-    switch (c)
-    {
-    case '~': return true;
-    case '!': return true;
-    case '@': return true;
-    case '#': return true;
-    case '$': return true;
-    case '%': return true;
-    case '^': return true;
-    case '&': return true;
-    case '*': return true;
-    case '(': return true;
-    case ')': return true;
-    case '_': return true;
-    case '+': return true;
-
-    case '{': return true;
-    case '}': return true;
-    case '|': return true;
-
-    case ':': return true;
-    case '"': return true;
-
-    case '<': return true;
-    case '>': return true;
-    case '?': return true;
-
-    default: return false;
-    }
-}
+std::wifstream file(L"./test.txt"); // 替换为你的文件路径
+std::vector<wchar_t> charArray;
 
 void 
-SendKeyInput(char c)
+SendUnicodeChar(wchar_t c)
 {
-    inputs[2].ki.wVk = inputs[3].ki.wVk = VkKeyScan(c);
-    if (Test_for_shift(c))
+    INPUT input;
+    ZeroMemory(&input, sizeof(INPUT));
+    input.type = INPUT_KEYBOARD;
+
+    if('\n'==c)
     {
-        SendInput(1, &inputs[0], sizeof(INPUT));
-        SendInput(1, &inputs[2], sizeof(INPUT));
-        SendInput(1, &inputs[3], sizeof(INPUT));
-        SendInput(1, &inputs[1], sizeof(INPUT));
+        input.ki.wVk = VK_RETURN;
+    }
+    else if('\t'==c)
+    {
+        input.ki.wVk = VK_TAB;
     }
     else
     {
-        SendInput(1, &inputs[2], sizeof(INPUT));
-        SendInput(1, &inputs[3], sizeof(INPUT));
+        input.ki.wScan = c;
+        input.ki.dwFlags = KEYEVENTF_UNICODE;
     }
+
+    SendInput(1, &input, sizeof(INPUT));
 }
 
 void
 fun_01()
 {
-    if (file.is_open()) 
+    setlocale(LC_ALL,"chs"); // 设置locale为中文(简体)
+    file.imbue(std::locale("")); // 使用用户的默认locale
+
+    if(file.is_open())
     {
-        char c;
+        wchar_t c;
         while (file.get(c)) { charArray.push_back(c); }
         file.close();
-
-        ZeroMemory(inputs, sizeof(inputs));
-        for (int i = 0; i < 4; i++) { inputs[i].type = INPUT_KEYBOARD; }
-        inputs[2].ki.dwFlags = inputs[3].ki.dwFlags = KEYEVENTF_KEYUP;
-        inputs[0].ki.wVk = inputs[1].ki.wVk = VK_SHIFT;
-
-        std::cout << "ok" << std::endl;
-
-        Sleep(3000);
-
-        for (char c : charArray)
-        {
-            SendKeyInput(c);
-            Sleep(30);
-        }
     }
     else
     {
-        std::cout << "error" << std::endl;
+        std::cout<<"error\n";
+        return;
     }
-}
+    
+    std::cout<<"按下Enter开始抄写...\n";
+    while(!(GetKeyState(VK_RETURN)&0x8000));
+    while(GetKeyState(VK_RETURN)&0x8000);
+    std::cout<<"==========================================================\n";
 
-void
-fun_02()
-{
-    Sleep(3000);
+    for(wchar_t c : charArray)
+    {
+        std::wcout<<c;
+        SendUnicodeChar(c);
+        if((GetKeyState(VK_SPACE)&0x8000)) { break; }
+        Sleep(30);
+    }
 
-    // 模拟鼠标左键点击
-    mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
-    mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
-
-    // 模拟键盘输入
-    keybd_event('A', 0, 0, 0); // 按下 'A'
-    keybd_event('A', 0, KEYEVENTF_KEYUP, 0); // 释放 'A'
-}
-
-void
-Super_print(char c)
-{
-    keybd_event(c, 0, 0, 0); // 按下 c
-    keybd_event(c, 0, KEYEVENTF_KEYUP, 0); // 释放 c
+    std::cout<<"\n==========================================================\n抄写结束\n";
 }
 
 int
 main()
 {
     fun_01();
-
     return 0;
 }
