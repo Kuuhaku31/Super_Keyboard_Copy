@@ -1,28 +1,94 @@
-末班列车去哪里	終末トレインどこへいく？	4月1日	月	12	1	1	O
-死神少爷与黑女仆3	死神坊ちゃんと黒メイド 第3期	4月7日	日	12			O
-战国妖狐	戦国妖狐		水	37	13	12	X
-素晴3	この素晴らしい世界に祝福を！3	4月10日	水	11			O
-无职转生2part2	無職転生Ⅱ ～異世界行ったら本気だす～ 第2クール	4月7日	日	13-24			O
-京吹3	響け！ユーフォニアム３	4月7日	日	13			O
-迷宫饭	ダンジョン飯		木	24	13	12	X
-BA	ブルーアーカイブ The Animation	4月7日	日	12			O
-忍者神威					7	7	O
-							
-GIRLS BAND CRY	ガールズバンドクライ	4月5日	金	12			O
-夜晚水母不游泳	夜のクラゲは泳げない	4月6日	土	12			O
-外星笔记	アストロノオト	4月5日	金	12			O
-声优广播的幕前幕后	声優ラジオのウラオモテ	4月10日	水	12			O
-爷爷奶奶返老还童	じいさんばあさん若返る	4月7日	日	12			O
-良禽不择木	烏は主を選ばない	4月6日	土	12			O
-怪异与少女与神隐	怪異と乙女と神隠し	4月10日	水	12			O
-怪兽8号	怪獣8号	4月13日	土	12			O
-恋语轻唱	ささやくように恋を唄う	4月13日	土	12			O
-战队大失格	戦隊大失格	4月7日	日	12			O
-杀手寓言	ザ.ファブル	4月6日	土	24			O
-							
-渴求游戏之神	神は遊戯に飢えている。	4月1日	月	12	1		X
-防风少年	WIND BREAKER	4月4日	木	12			O
-格斗实况	喧嘩独学	4月10日	水	12			O
-从Lv2开始开挂的原勇者候补悠闲的异世界生活	Lv2からチートだった元勇者候補のまったり異世界ライフ	4月8日	月	12			O
-							
-格林童话变奏曲	グリム組曲	4月17日	水	6			O
+
+#include <windows.h>
+#include <winuser.h>
+
+#include <ShlObj.h>
+#include <fstream>
+#include <vector>
+#include <locale>
+#include <conio.h>
+#include <iostream>
+
+void 
+SendUnicodeChar(wchar_t c)
+{
+    INPUT input;
+    ZeroMemory(&input, sizeof(INPUT));
+    input.type = INPUT_KEYBOARD;
+
+    if('\n'==c)
+    {
+        input.ki.wVk = VK_RETURN;
+    }
+    else if('\t'==c)
+    {
+        input.ki.wVk = VK_TAB;
+    }
+    else
+    {
+        input.ki.wScan = c;
+        input.ki.dwFlags = KEYEVENTF_UNICODE;
+    }
+
+    SendInput(1, &input, sizeof(INPUT));
+}
+
+void
+Copy()
+{
+    std::vector<wchar_t> charArray;
+    std::wifstream file(L"./test.txt"); // 替换为你的文件路径
+    file.imbue(std::locale("")); // 使用用户的默认locale
+    
+    if(file.is_open())
+    {
+        wchar_t c;
+        while(file.get(c)) { charArray.push_back(c); }
+        file.close();
+    }
+    else
+    {
+        std::cout<<"error\n";
+        return;
+    }
+
+    std::cout<<"按下Enter开始抄写...\n";
+    while(!(GetKeyState(VK_RETURN)&0x8000));
+    while(GetKeyState(VK_RETURN)&0x8000);
+    std::cout<<"==========================================================\n";
+
+    for(wchar_t c : charArray)
+    {
+        std::wcout<<c;
+        SendUnicodeChar(c);
+        if((GetKeyState(VK_SPACE)&0x8000)) { break; }
+        Sleep(30);
+    }
+
+    std::cout<<"\n==========================================================\n抄写结束\n";
+
+}
+
+void
+fun_01()
+{
+    setlocale(LC_ALL,"chs"); // 设置locale为中文(简体)
+
+    char i = 0;
+    while('q'!=i)
+    {
+        i = _getch();
+        if('n'==i)
+        {
+            Copy();
+        }
+    }
+    
+}
+
+int
+main()
+{
+    fun_01();
+    return 0;
+}
