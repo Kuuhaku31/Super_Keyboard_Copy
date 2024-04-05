@@ -1,0 +1,29 @@
+void
+fun_01()
+{
+    if (file.is_open()) 
+    {
+        char c;
+        while (file.get(c)) { charArray.push_back(c); }
+        file.close();
+
+        ZeroMemory(inputs, sizeof(inputs));
+        for (int i = 0; i < 4; i++) { inputs[i].type = INPUT_KEYBOARD; }
+        inputs[2].ki.dwFlags = inputs[3].ki.dwFlags = KEYEVENTF_KEYUP;
+        inputs[0].ki.wVk = inputs[1].ki.wVk = VK_SHIFT;
+
+        std::cout << "ok" << std::endl;
+
+        Sleep(3000);
+
+        for (char c : charArray)
+        {
+            SetKeyInput(c);
+            Sleep(30);
+        }
+    }
+    else
+    {
+        std::cout << "error" << std::endl;
+    }
+}
