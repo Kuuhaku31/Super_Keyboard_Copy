@@ -1,94 +1,36 @@
+#include <stdio.h>
 
-#include <windows.h>
-#include <winuser.h>
+#include <stdio.h>
 
-#include <ShlObj.h>
-#include <fstream>
-#include <vector>
-#include <locale>
-#include <conio.h>
-#include <iostream>
-
-void 
-SendUnicodeChar(wchar_t c)
+float bmi(float height, float weight)
 {
-    INPUT input;
-    ZeroMemory(&input, sizeof(INPUT));
-    input.type = INPUT_KEYBOARD;
+    return weight/(height*height);
+}
 
-    if('\n'==c)
+int main()
+{
+    float height, weight, bmiValue;
+
+    scanf("%f %f", &height, &weight);
+
+    bmiValue = bmi(height, weight);
+
+    if(bmiValue<18.5)
     {
-        input.ki.wVk = VK_RETURN;
+        printf("身体质量偏瘦");
     }
-    else if('\t'==c)
+    else if(bmiValue<24)
     {
-        input.ki.wVk = VK_TAB;
+        printf("身体质量正常");
+    }
+    else if(bmiValue<28)
+    {
+        printf("身体质量偏胖");
     }
     else
     {
-        input.ki.wScan = c;
-        input.ki.dwFlags = KEYEVENTF_UNICODE;
+        printf("身体质量肥胖");
     }
 
-    SendInput(1, &input, sizeof(INPUT));
-}
-
-void
-Copy()
-{
-    std::vector<wchar_t> charArray;
-    std::wifstream file(L"./test.txt"); // 替换为你的文件路径
-    file.imbue(std::locale("")); // 使用用户的默认locale
-    
-    if(file.is_open())
-    {
-        wchar_t c;
-        while(file.get(c)) { charArray.push_back(c); }
-        file.close();
-    }
-    else
-    {
-        std::cout<<"error\n";
-        return;
-    }
-
-    std::cout<<"按下Enter开始抄写...\n";
-    while(!(GetKeyState(VK_RETURN)&0x8000));
-    while(GetKeyState(VK_RETURN)&0x8000);
-    std::cout<<"==========================================================\n";
-
-    for(wchar_t c : charArray)
-    {
-        std::wcout<<c;
-        SendUnicodeChar(c);
-        if((GetKeyState(VK_SPACE)&0x8000)) { break; }
-        Sleep(30);
-    }
-
-    std::cout<<"\n==========================================================\n抄写结束\n";
-
-}
-
-void
-fun_01()
-{
-    setlocale(LC_ALL,"chs"); // 设置locale为中文(简体)
-
-    char i = 0;
-    while('q'!=i)
-    {
-        i = _getch();
-        if('n'==i)
-        {
-            Copy();
-        }
-    }
-    
-}
-
-int
-main()
-{
-    fun_01();
     return 0;
 }

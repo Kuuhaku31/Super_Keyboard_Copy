@@ -1,24 +1,35 @@
 
- file.imbue(std::locale("")); // 使用用户的默认locale
-    if (file.is_open())
+#include <stdio.h>
+
+float bmi(float height, float weight)
+{
+    return weight/(height*height);
+}
+
+int main()
+{
+    float height, weight, bmiValue;
+
+    scanf("%f %f", &height, &weight);
+
+    bmiValue = bmi(height, weight);
+
+    if(bmiValue<18.5)
     {
-
-编写函数f(x)，其功能是,。
-编写函数g(x,y)，其功能是计算,。
-在main()函数中输入四个实数a、b、c和d，调用g()和f()函数，计算并输出,（保留2位小数）。
-
-输入输出格式：
-scanf("%_%_%_%_",)
-printf("%.2_",,)
-
- file.imbue(std::locale("")); // 使用用户的默认locale
-    if (file.is_open())
+        printf("身体质量偏瘦");
+    }
+    else if(bmiValue<24)
     {
+        printf("身体质量正常");
+    }
+    else if(bmiValue<28)
+    {
+        printf("身体质量偏胖");
+    }
+    else
+    {
+        printf("身体质量肥胖");
+    }
 
-编写函数f(x)，其功能是,。
-编写函数g(x,y)，其功能是计算,。
-在main()函数中输入四个实数a、b、c和d，调用g()和f()函数，计算并输出,（保留2位小数）。
-
-输入输出格式：
-scanf("%_%_%_%_",)
-printf("%.2_",,)
+    return 0;
+}
