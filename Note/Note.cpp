@@ -1,36 +1,26 @@
 ﻿
-#include <math.h> 
 #include <stdio.h>
+#include <math.h>
+#define For(i,n) for(ll i = 0; i<n; i++)
+#define For_(i,n) for(ll i = 1; i<=n; i++)
+#define ll long long
 
-float bmi(float height, float weight)
+using namespace std;
+
+ll const INF = 0x3f3f3f3f3f3f3f3f;
+
+int inum[100] = { 0 };
+ll lnum[100] = { 0 };
+double dnum[100] = { 0 };
+
+int
+main()
 {
-    return weight/(height*height);
-}
+	For_(i, 4) scanf_s("%f", &dnum[i]);
 
-int main()
-{
-    float height, weight, bmiValue;
 
-    scanf("%f %f", &height, &weight);
 
-    bmiValue = bmi(height, weight);
+	printf("%f", dnum[5]);
 
-    if(bmiValue<18.5)
-    {
-        printf("身体质量偏瘦");
-    }
-    else if(bmiValue<24)
-    {
-        printf("身体质量正常");
-    }
-    else if(bmiValue<28)
-    {
-        printf("身体质量偏胖");
-    }
-    else
-    {
-        printf("身体质量肥胖");
-    }
-
-    return 0;
+	return 0;
 }

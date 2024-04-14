@@ -1,36 +1,59 @@
-#include <stdio.h>
+#include <stdio.h> 
 
-#include <stdio.h>
+#include <math.h> 
 
-float bmi(float height, float weight)
+
+int 
+fun(int s, int t)
 {
-    return weight/(height*height);
+    int total = 0;
+    if(t==0)
+    {
+        total = s*60;
+    }
+    else if(s==0)
+    {
+        total = t*45;
+    }
+    else if(s==t)
+    {
+        total = (s>=50) ? s*80 : s*90;
+    }
+    else if(s>t)
+    {
+        int d = s-t;
+        if((s-d)>=50)
+        {
+            total = d*60+(s-d)*80;
+        }
+        else
+        {
+            total = d*60+(s-d)*90;
+        }
+    }
+    else if(s<t)
+    {
+        int d = t-s;
+        if((t-d)>=50)
+        {
+            total = d*45+(t-d)*80;
+        }
+        else
+        {
+            total = d*45+(t-d)*90;
+        }
+    }
+
+    return total;
 }
 
-int main()
+int 
+main()
 {
-    float height, weight, bmiValue;
+    int s, t;
+    scanf("%d %d", &s, &t);
 
-    scanf("%f %f", &height, &weight);
-
-    bmiValue = bmi(height, weight);
-
-    if(bmiValue<18.5)
-    {
-        printf("身体质量偏瘦");
-    }
-    else if(bmiValue<24)
-    {
-        printf("身体质量正常");
-    }
-    else if(bmiValue<28)
-    {
-        printf("身体质量偏胖");
-    }
-    else
-    {
-        printf("身体质量肥胖");
-    }
+    printf("收款总额为%d", fun(s, t));
 
     return 0;
 }
