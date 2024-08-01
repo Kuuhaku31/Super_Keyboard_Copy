@@ -61,8 +61,9 @@ init()
     lpDlist = SHBrowseForFolder(&bInfo);
     if(lpDlist!=NULL)
     {
-        SHGetPathFromIDList(lpDlist, path_ch);
+        SHGetPathFromIDListA(lpDlist, reinterpret_cast<LPSTR>(path_ch));
         //file.open(path_ch);
+        return true;
     }
     else
     {
