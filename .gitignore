@@ -2,6 +2,9 @@
 note01/
 
 dot/
+bin
+build
+.vscode
 
 Project/build/
 Project/.vscode/
