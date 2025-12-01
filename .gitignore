@@ -4,7 +4,10 @@ note01/
 dot/
 bin
 build
-.vscode
+.vscode/
+.idea/
+.out/
+.gradle/
 
 Project/build/
 Project/.vscode/
