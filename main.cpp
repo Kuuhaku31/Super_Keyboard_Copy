@@ -34,8 +34,8 @@ void
 Copy()
 {
     std::vector<wchar_t> charArray;
-    std::wifstream       file(L"./test.txt"); // Ìæ»»ÎªÄãµÄÎÄ¼şÂ·¾¶
-    file.imbue(std::locale(""));              // Ê¹ÓÃÓÃ»§µÄÄ¬ÈÏlocale
+    std::wifstream       file(L"./test.txt"); // æ›¿æ¢ä¸ºä½ çš„æ–‡ä»¶è·¯å¾„
+    file.imbue(std::locale(""));              // ä½¿ç”¨ç”¨æˆ·çš„é»˜è®¤locale
 
     if(file.is_open())
     {
@@ -52,7 +52,7 @@ Copy()
         return;
     }
 
-    std::cout << "°´ÏÂEnter¿ªÊ¼³­Ğ´...\n";
+    std::cout << "æŒ‰ä¸‹Enterå¼€å§‹æŠ„å†™...\n";
     while(!(GetKeyState(VK_RETURN) & 0x8000));
     while(GetKeyState(VK_RETURN) & 0x8000);
     std::cout << "==========================================================\n";
@@ -81,16 +81,16 @@ Copy()
         Sleep(1);
     }
 
-    std::cout << "\n==========================================================\n³­Ğ´½áÊø\n";
+    std::cout << "\n==========================================================\næŠ„å†™ç»“æŸ\n";
 }
 
-// ÊÊÓ¦¶ÁÈ¡¹¦ÄÜ
+// é€‚åº”è¯»å–åŠŸèƒ½
 void
 MCopy()
 {
     std::vector<wchar_t> charArray;
-    std::wifstream       file(L"./test.txt"); // Ìæ»»ÎªÄãµÄÎÄ¼şÂ·¾¶
-    file.imbue(std::locale(""));              // Ê¹ÓÃÓÃ»§µÄÄ¬ÈÏlocale
+    std::wifstream       file(L"./test.txt"); // æ›¿æ¢ä¸ºä½ çš„æ–‡ä»¶è·¯å¾„
+    file.imbue(std::locale(""));              // ä½¿ç”¨ç”¨æˆ·çš„é»˜è®¤locale
 
     if(file.is_open())
     {
@@ -107,7 +107,7 @@ MCopy()
         return;
     }
 
-    std::cout << "°´ÏÂEnter¿ªÊ¼ÊÊÓ¦³­Ğ´...\n";
+    std::cout << "æŒ‰ä¸‹Enterå¼€å§‹é€‚åº”æŠ„å†™...\n";
     while(!(GetKeyState(VK_RETURN) & 0x8000));
     while(GetKeyState(VK_RETURN) & 0x8000);
     std::cout << "==========================================================\n";
@@ -143,16 +143,16 @@ MCopy()
         Sleep(1);
     }
 
-    std::cout << "\n==========================================================\n³­Ğ´½áÊø\n";
+    std::cout << "\n==========================================================\næŠ„å†™ç»“æŸ\n";
 }
 
-// ²»Òª»»ĞĞ
+// ä¸è¦æ¢è¡Œ
 void
 CCopy()
 {
     std::vector<wchar_t> charArray;
-    std::wifstream       file(L"./test.txt"); // Ìæ»»ÎªÄãµÄÎÄ¼şÂ·¾¶
-    file.imbue(std::locale(""));              // Ê¹ÓÃÓÃ»§µÄÄ¬ÈÏlocale
+    std::wifstream       file(L"./test.txt"); // æ›¿æ¢ä¸ºä½ çš„æ–‡ä»¶è·¯å¾„
+    file.imbue(std::locale(""));              // ä½¿ç”¨ç”¨æˆ·çš„é»˜è®¤locale
 
     if(file.is_open())
     {
@@ -169,7 +169,7 @@ CCopy()
         return;
     }
 
-    std::cout << "°´ÏÂEnter¿ªÊ¼ÊÊÓ¦³­Ğ´...\n";
+    std::cout << "æŒ‰ä¸‹Enterå¼€å§‹é€‚åº”æŠ„å†™...\n";
     while(!(GetKeyState(VK_RETURN) & 0x8000));
     while(GetKeyState(VK_RETURN) & 0x8000);
     std::cout << "==========================================================\n";
@@ -219,18 +219,18 @@ CCopy()
         Sleep(1);
     }
 
-    std::cout << "\n==========================================================\n³­Ğ´½áÊø\n";
+    std::cout << "\n==========================================================\næŠ„å†™ç»“æŸ\n";
 }
 
 void
 fun_01()
 {
-    setlocale(LC_ALL, "chs"); // ÉèÖÃlocaleÎªÖĞÎÄ(¼òÌå)
+    // setlocale(LC_ALL, "chs"); // è®¾ç½®localeä¸ºä¸­æ–‡(ç®€ä½“)
 
     char i = 0;
     while('q' != i)
     {
-        std::cout << "°´ÏÂ'N'¼ü¿ªÊ¼¶ÁÈ¡\n°´ÏÂ'M'¼ü¿ªÊ¼ÊÊÓ¦¶ÁÈ¡\n°´ÏÂ'Q'¼üÍË³ö...\n";
+        std::cout << "æŒ‰ä¸‹'N'é”®å¼€å§‹è¯»å–\næŒ‰ä¸‹'M'é”®å¼€å§‹é€‚åº”è¯»å–\næŒ‰ä¸‹'Q'é”®é€€å‡º...\n";
         i = 0;
         i = _getch();
 
@@ -253,12 +253,13 @@ fun_01()
         }
     }
 
-    std::cout << "³ÌĞòÒÑÍË³ö£º£©\n";
+    std::cout << "ç¨‹åºå·²é€€å‡ºï¼šï¼‰\n";
 }
 
 int
 main()
 {
+    std::cout << "start\n";
     fun_01();
     return 0;
 }
