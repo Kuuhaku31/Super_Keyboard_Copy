@@ -2,7 +2,7 @@
 note01/
 
 dot/
-bin
+.bin/
 build
 .vscode/
 .idea/
@@ -10,6 +10,7 @@ build
 .gradle/
 /.ignore/
 /gradle
+/cmake-*
 
 Project/build/
 Project/.vscode/
