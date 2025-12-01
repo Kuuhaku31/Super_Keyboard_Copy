@@ -7,6 +7,7 @@ import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.win32.StdCallLibrary;
 import com.sun.jna.win32.W32APIOptions;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -33,6 +34,9 @@ class AutoTyper
     static final        int VK_DELETE         = 0x2E;
     public
     static final        int VK_HOME           = 0x24;
+
+
+    static final String file_path = ".ignore/src.txt";
 
     // ----------------- 工具函数 -----------------
     private
@@ -69,6 +73,8 @@ class AutoTyper
     static
     List<Character> loadFile(String path)
     {
+        System.out.println("pwd" + new File(".").getAbsolutePath());
+        System.out.println("path:" + path);
         List<Character> result = new ArrayList<>();
         try(Reader reader = new InputStreamReader(new FileInputStream(path), Charset.defaultCharset()))
         {
@@ -90,7 +96,7 @@ class AutoTyper
     static
     void Copy() throws Exception
     {
-        List<Character> chars = loadFile("./test.txt");
+        List<Character> chars = loadFile(file_path);
         System.out.println("按下Enter开始抄写...");
         while(!keyDown(VK_RETURN)) ;
         while(keyDown(VK_RETURN)) ;
@@ -128,7 +134,7 @@ class AutoTyper
     static
     void MCopy() throws Exception
     {
-        List<Character> chars = loadFile("./test.txt");
+        List<Character> chars = loadFile(file_path);
         System.out.println("按下Enter开始适应抄写...");
         while(!keyDown(VK_RETURN)) ;
         while(keyDown(VK_RETURN)) ;
@@ -173,7 +179,7 @@ class AutoTyper
     static
     void CCopy() throws Exception
     {
-        List<Character> chars = loadFile("./test.txt");
+        List<Character> chars = loadFile(file_path);
         System.out.println("按下Enter开始适应抄写（不换行模式）...");
         while(!keyDown(VK_RETURN)) ;
         while(keyDown(VK_RETURN)) ;
@@ -272,9 +278,9 @@ class AutoTyper
     {
         User32 INSTANCE = Native.load("user32", User32.class, W32APIOptions.DEFAULT_OPTIONS);
 
-        short GetKeyState(int nVirtKey);
+        short GetKeyState(int key);
 
-        int SendInput(int nInputs, INPUT[] pInputs, int cbSize);
+        void SendInput(int nInputs, INPUT[] pInputs, int cbSize);
     }
 
     public

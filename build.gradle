@@ -14,8 +14,8 @@ dependencies {
     implementation 'net.java.dev.jna:jna-platform:5.14.0'
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+tasks.withType(JavaExec) {
+jvmArgs = ['-Xmx512m', '-Dfile.encoding=UTF-8', '-Dsun.stdout.encoding=UTF-8', '-Dsun.stderr.encoding=UTF-8']
 }
 
 jar {
@@ -35,3 +35,4 @@ sourceSets {
         }
     }
 }
+

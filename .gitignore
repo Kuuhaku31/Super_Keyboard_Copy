@@ -8,9 +8,15 @@ build
 .idea/
 .out/
 .gradle/
+/.ignore/
+/gradle
 
 Project/build/
 Project/.vscode/
 Project/bin/
 Project/test/
 Project/dot/
+
+/Super_Keyboard_Copy.iml
+/gradlew
+/gradlew.bat
