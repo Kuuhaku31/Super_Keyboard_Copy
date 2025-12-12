@@ -6,41 +6,24 @@
 #include <windows.h>
 
 void
-SendUnicodeChar(wchar_t c)
-{
-    INPUT input;
-    ZeroMemory(&input, sizeof(INPUT));
-    input.type = INPUT_KEYBOARD;
-
-    input.ki.wScan = c;
-    input.ki.dwFlags = KEYEVENTF_UNICODE;
-
-    SendInput(1, &input, sizeof(INPUT));
-}
-
-void
-SendVKCode(wchar_t c)
-{
-    INPUT input;
-    ZeroMemory(&input, sizeof(INPUT));
-    input.type = INPUT_KEYBOARD;
-
-    input.ki.wVk = c;
-
-    SendInput(1, &input, sizeof(INPUT));
-}
-
-void
 Copy()
 {
     std::vector<wchar_t> charArray;
-    std::wifstream file(L"./test.txt"); // 替换为你的文件路径
-    file.imbue(std::locale("")); // 使用用户的默认locale
+    std::wifstream       file(L"./test.txt"); // 替换为你的文件路径
+    try
+    {
+        file.imbue(std::locale("")); // 尝试使用用户的默认 locale
+    }
+    catch(const std::runtime_error&)
+    {
+        // 在部分 MinGW/Windows 环境下，std::locale("") 可能无效，回退到可用的经典 locale
+        file.imbue(std::locale::classic());
+    }
 
-    if (file.is_open())
+    if(file.is_open())
     {
         wchar_t c;
-        while (file.get(c))
+        while(file.get(c))
         {
             charArray.push_back(c);
         }
@@ -53,15 +36,15 @@ Copy()
     }
 
     std::cout << "按下Enter开始抄写...\n";
-    while (!(GetKeyState(VK_RETURN) & 0x8000));
-    while (GetKeyState(VK_RETURN) & 0x8000);
+    while(!(GetKeyState(VK_RETURN) & 0x8000));
+    while(GetKeyState(VK_RETURN) & 0x8000);
     std::cout << "==========================================================\n";
 
-    for (wchar_t c : charArray)
+    for(wchar_t c : charArray)
     {
         std::wcout << c;
 
-        switch (c)
+        switch(c)
         {
         case '\n':
             SendVKCode(VK_RETURN);
@@ -74,7 +57,7 @@ Copy()
             break;
         }
 
-        if ((GetKeyState(VK_SPACE) & 0x8000))
+        if((GetKeyState(VK_SPACE) & 0x8000))
         {
             break;
         }
@@ -89,13 +72,20 @@ void
 MCopy()
 {
     std::vector<wchar_t> charArray;
-    std::wifstream file(L"./test.txt"); // 替换为你的文件路径
-    file.imbue(std::locale("")); // 使用用户的默认locale
+    std::wifstream       file(L"./test.txt"); // 替换为你的文件路径
+    try
+    {
+        file.imbue(std::locale("")); // 尝试使用用户的默认 locale
+    }
+    catch(const std::runtime_error&)
+    {
+        file.imbue(std::locale::classic());
+    }
 
-    if (file.is_open())
+    if(file.is_open())
     {
         wchar_t c;
-        while (file.get(c))
+        while(file.get(c))
         {
             charArray.push_back(c);
         }
@@ -108,15 +98,15 @@ MCopy()
     }
 
     std::cout << "按下Enter开始适应抄写...\n";
-    while (!(GetKeyState(VK_RETURN) & 0x8000));
-    while (GetKeyState(VK_RETURN) & 0x8000);
+    while(!(GetKeyState(VK_RETURN) & 0x8000));
+    while(GetKeyState(VK_RETURN) & 0x8000);
     std::cout << "==========================================================\n";
 
-    for (wchar_t c : charArray)
+    for(wchar_t c : charArray)
     {
         std::wcout << c;
 
-        switch (c)
+        switch(c)
         {
         case '{':
         case '[':
@@ -136,7 +126,7 @@ MCopy()
             break;
         }
 
-        if ((GetKeyState(VK_SPACE) & 0x8000))
+        if((GetKeyState(VK_SPACE) & 0x8000))
         {
             break;
         }
@@ -151,13 +141,20 @@ void
 CCopy()
 {
     std::vector<wchar_t> charArray;
-    std::wifstream file(L"./test.txt"); // 替换为你的文件路径
-    file.imbue(std::locale("")); // 使用用户的默认locale
+    std::wifstream       file(L"./test.txt"); // 替换为你的文件路径
+    try
+    {
+        file.imbue(std::locale("")); // 尝试使用用户的默认 locale
+    }
+    catch(const std::runtime_error&)
+    {
+        file.imbue(std::locale::classic());
+    }
 
-    if (file.is_open())
+    if(file.is_open())
     {
         wchar_t c;
-        while (file.get(c))
+        while(file.get(c))
         {
             charArray.push_back(c);
         }
@@ -170,17 +167,17 @@ CCopy()
     }
 
     std::cout << "按下Enter开始适应抄写...\n";
-    while (!(GetKeyState(VK_RETURN) & 0x8000));
-    while (GetKeyState(VK_RETURN) & 0x8000);
+    while(!(GetKeyState(VK_RETURN) & 0x8000));
+    while(GetKeyState(VK_RETURN) & 0x8000);
     std::cout << "==========================================================\n";
 
     bool is_space = true;
-    bool is_in = false;
-    for (wchar_t c : charArray)
+    bool is_in    = false;
+    for(wchar_t c : charArray)
     {
         std::wcout << c;
 
-        switch (c)
+        switch(c)
         {
         case '#':
             is_in = true;
@@ -190,7 +187,7 @@ CCopy()
             break;
 
         case '\n':
-            if (is_in)
+            if(is_in)
             {
                 is_in = false;
                 SendVKCode(VK_RETURN);
@@ -199,7 +196,7 @@ CCopy()
             break;
 
         case ' ':
-            if (is_space)
+            if(is_space)
             {
                 is_space = false;
                 SendUnicodeChar(c);
@@ -212,7 +209,7 @@ CCopy()
             break;
         }
 
-        if ((GetKeyState(VK_SPACE) & 0x8000))
+        if((GetKeyState(VK_SPACE) & 0x8000))
         {
             break;
         }
@@ -222,19 +219,20 @@ CCopy()
     std::cout << "\n==========================================================\n抄写结束\n";
 }
 
-void
-fun_01()
+int
+main()
 {
+    std::cout << "start" << std::endl;
     setlocale(LC_ALL, "chs"); // 设置locale为中文(简体)
 
     char i = 0;
-    while ('q' != i)
+    while('q' != i)
     {
         std::cout << "按下'N'键开始读取\n按下'M'键开始适应读取\n按下'Q'键退出...\n";
         i = 0;
         i = _getch();
 
-        switch (i)
+        switch(i)
         {
         case 'n':
             Copy();
@@ -253,13 +251,7 @@ fun_01()
         }
     }
 
-    std::cout << "程序已退出：）\n";
-}
+    std::cout << "程序已退出..." << std::endl;
 
-int
-main()
-{
-    std::cout << "start\n";
-    fun_01();
     return 0;
 }
