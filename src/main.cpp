@@ -1,4 +1,7 @@
 
+#include "header.h"
+#include "utf_reader.h"
+
 #include <conio.h>
 #include <fstream>
 #include <iostream>
@@ -6,44 +9,16 @@
 #include <windows.h>
 
 void
-Copy()
+Copy(std::wstring context)
 {
-    std::vector<wchar_t> charArray;
-    std::wifstream       file(L"./test.txt"); // 替换为你的文件路径
-    try
-    {
-        file.imbue(std::locale("")); // 尝试使用用户的默认 locale
-    }
-    catch(const std::runtime_error&)
-    {
-        // 在部分 MinGW/Windows 环境下，std::locale("") 可能无效，回退到可用的经典 locale
-        file.imbue(std::locale::classic());
-    }
-
-    if(file.is_open())
-    {
-        wchar_t c;
-        while(file.get(c))
-        {
-            charArray.push_back(c);
-        }
-        file.close();
-    }
-    else
-    {
-        std::cout << "error\n";
-        return;
-    }
-
     std::cout << "按下Enter开始抄写...\n";
     while(!(GetKeyState(VK_RETURN) & 0x8000));
     while(GetKeyState(VK_RETURN) & 0x8000);
     std::cout << "==========================================================\n";
 
-    for(wchar_t c : charArray)
+    for(wchar_t c : context)
     {
-        std::wcout << c;
-
+        print_wchar(c);
         switch(c)
         {
         case '\n':
@@ -57,10 +32,7 @@ Copy()
             break;
         }
 
-        if((GetKeyState(VK_SPACE) & 0x8000))
-        {
-            break;
-        }
+        if((GetKeyState(VK_SPACE) & 0x8000)) break;
         Sleep(1);
     }
 
@@ -223,7 +195,7 @@ int
 main()
 {
     std::cout << "start" << std::endl;
-    setlocale(LC_ALL, "chs"); // 设置locale为中文(简体)
+
 
     char i = 0;
     while('q' != i)
@@ -232,10 +204,12 @@ main()
         i = 0;
         i = _getch();
 
+        std::wstring context = Read("./test.txt");
+
         switch(i)
         {
         case 'n':
-            Copy();
+            Copy(context);
             break;
 
         case 'm':

@@ -1,8 +1,11 @@
 
 #include "header.h"
 #include <ctime>
+#include <iostream>
 #include <stdio.h>
-#include <windows.h>
+#include <string>
+#include <codecvt>
+#include <locale>
 
 int
 main()
@@ -17,14 +20,15 @@ main()
         while((std::clock() - start_time) / CLOCKS_PER_SEC < 1);
     }
 
-    SendUnicodeChar(L'你');
-    SendUnicodeChar(L'好');
-    SendVKCode(VK_RETURN);
-    SendUnicodeChar(L'你');
-    SendUnicodeChar(L'好');
-    SendVKCode(VK_RETURN);
-    SendUnicodeChar(L'世');
-    SendUnicodeChar(L'界');
+    std::wstring str2 = Read("./test.txt");
+
+    for(wchar_t c : str2)
+    {
+        print_wchar(c);
+        if(c == L'\n') SendVKCode(VK_RETURN); 
+        else SendUnicodeChar(c);
+        Sleep(5);
+    }
 
     return 0;
 }
