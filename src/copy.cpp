@@ -1,58 +1,91 @@
 
 #include "header.h"
-#include <codecvt>
-#include <cstdio>
-#include <fstream>
-#include <locale>
-#include <string>
-#include <vector>
+
 #include <iostream>
 
-// 读取 UTF-8 文件内容到宽字符串
-std::wstring
-Read(const std::string& path)
+#define LINE "=========================================================="
+#define SLEEP_MS 1
+
+
+void
+begin()
 {
-    // 1. 以二进制方式读取文件
-    std::ifstream file(path, std::ios::binary);
-    if(!file) throw std::runtime_error("cannot open file");
-
-    std::string utf8(
-        (std::istreambuf_iterator<char>(file)),
-        std::istreambuf_iterator<char>()
-    );
-
-    // 2. UTF-8 -> UTF-16 / UTF-32
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-    return conv.from_bytes(utf8);
+    std::cout << "按下 Enter 开始抄写..." << std::endl;
+    WaitVKKey(VK_RETURN);
+    std::cout << LINE << std::endl;
 }
 
-void SendUnicodeChar(wchar_t c)
+bool
+interrupt()
 {
-    INPUT input;
-    ZeroMemory(&input, sizeof(INPUT));
-    input.type = INPUT_KEYBOARD;
-
-    input.ki.wScan   = c;
-    input.ki.dwFlags = KEYEVENTF_UNICODE;
-
-    SendInput(1, &input, sizeof(INPUT));
+    if(GetVKKey(VK_SPACE))
+    {
+        std::cout << std::endl << "== 中断抄写 ==" << std::endl;
+        return true;
+    }
+    else return false;
 }
 
 void
-SendVKCode(wchar_t c)
+end()
 {
-    INPUT input;
-    ZeroMemory(&input, sizeof(INPUT));
-    input.type = INPUT_KEYBOARD;
-
-    input.ki.wVk = c;
-
-    SendInput(1, &input, sizeof(INPUT));
+    std::cout << LINE << std::endl << "抄写结束" << std::endl;
 }
 
-void 
-print_wchar(wchar_t c)
+
+void
+Copy(std::wstring context)
 {
-    static std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-    std::cout << conv.to_bytes(std::wstring(1, c));  // 转 UTF-8 输出
+    begin();
+    for(wchar_t c : context)
+    {
+        PrintWChar(c);
+        switch(c)
+        {
+        case '\n':  SendVKCode(VK_RETURN);  break;
+        case '\t':  SendVKCode(VK_TAB);     break;
+        default:    SendUnicodeChar(c);     break;
+        }
+        if(interrupt()) break;
+        SleepMS(SLEEP_MS);
+    }
+    end();
+}
+
+void
+MCopy(std::wstring context)
+{
+    begin();
+    for(wchar_t c : context)
+    {
+        PrintWChar(c);
+
+        switch(c)
+        {
+        case '{':
+        case '[':
+        case '(':
+            SendUnicodeChar(c);
+            SendVKCode(VK_DELETE);
+            break;
+
+        case '\n':
+            SendVKCode(VK_ESCAPE);
+            SendVKCode(VK_RETURN);
+            SendVKCode(VK_HOME);
+            break;
+
+        case '\t':
+            SendVKCode(VK_ESCAPE);
+            SendVKCode(VK_TAB);
+            break;
+
+        default:
+            SendUnicodeChar(c);
+            break;
+        }
+        if(interrupt()) break;
+        SleepMS(SLEEP_MS);
+    }
+    end();
 }

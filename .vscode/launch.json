@@ -10,7 +10,14 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/out/test03_debug.exe",
-      "cwd": "${workspaceFolder}/out",
+      "cwd": "${workspaceFolder}/out"
+    },
+    {
+      "name": "main_debug",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/out/main_debug.exe",
+      "cwd": "${workspaceFolder}/out"
     }
   ]
 }
