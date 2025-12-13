@@ -5,6 +5,8 @@
 #include <fstream>
 #include <locale>
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 #define LINE "=========================================================="
 #define SLEEP_MS 1
@@ -112,7 +114,7 @@ Copy(std::wstring context)
         default:    SendUnicodeChar(c);     break;
         }
         if(interrupt()) break;
-        Sleep(SLEEP_MS);
+        std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_MS));
     }
     end();
 }
@@ -145,7 +147,7 @@ MCopy(std::wstring context)
             break;
         }
         if(interrupt()) break;
-        Sleep(SLEEP_MS);
+        std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_MS));
     }
     end();
 }

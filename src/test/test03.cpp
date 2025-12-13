@@ -24,7 +24,7 @@ main()
 
     for(wchar_t c : str2)
     {
-        print_wchar(c);
+        // print_wchar(c);
         if(c == L'\n') SendVKCode(VK_RETURN); 
         else SendUnicodeChar(c);
         Sleep(5);
