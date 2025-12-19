@@ -8,8 +8,8 @@
 #include <locale>
 #include <thread>
 
-
-std::wstring utf8_to_wstring(const std::string& s)
+std::wstring
+utf8_to_wstring(const std::string& s)
 {
     int len = MultiByteToWideChar(
         CP_UTF8, 0,
@@ -48,7 +48,6 @@ wstring_to_utf8(const std::wstring& ws)
     return s;
 }
 
-
 void
 SleepMS(int ms)
 {
@@ -81,7 +80,6 @@ PrintWChar(wchar_t c)
     // std::cout << conv.to_bytes(std::wstring(1, c)); // 转 UTF-8 输出
     std::cout << wstring_to_utf8(std::wstring(1, c));
 }
-
 
 void
 SendUnicodeChar(wchar_t c)

@@ -1,5 +1,6 @@
 
 #include "header.h"
+#include "color_io.h"
 
 #include <iostream>
 
@@ -10,7 +11,7 @@
 void
 begin()
 {
-    std::cout << "按下 Enter 开始抄写..." << std::endl;
+    PrintLog(LABEL, "按下 Enter 开始抄写...");
     WaitVKKey(VK_RETURN);
     std::cout << LINE << std::endl;
 }
@@ -20,7 +21,7 @@ interrupt()
 {
     if(GetVKKey(VK_SPACE))
     {
-        std::cout << std::endl << "== 中断抄写 ==" << std::endl;
+        PrintLog(LABEL, "== 中断抄写 ==");
         return true;
     }
     else return false;
@@ -29,7 +30,7 @@ interrupt()
 void
 end()
 {
-    std::cout << LINE << std::endl << "抄写结束" << std::endl;
+    PrintLog(LABEL, "抄写结束");
 }
 
 
