@@ -5,6 +5,7 @@
 #include <windows.h>
 
 #define LABEL "\033[1;31mCopyer\033[0m"
+#define LABEL_NEW_FILE "\033[1;31m新文件\033[0m"
 
 void SleepMS(int ms); // 以毫秒为单位的睡眠函数
 
