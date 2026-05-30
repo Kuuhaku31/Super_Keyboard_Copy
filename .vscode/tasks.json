@@ -1,0 +1,46 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build all",
+      "type": "process",
+      "command": "msbuild",
+      "args": ["./Super_Keyboard_Copy.slnx"],
+
+      // 将此任务分组为 "build"，并设置为默认构建任务
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "build main",
+      "type": "process",
+      "command": "msbuild",
+      "args": [
+        // "./Super_Keyboard_Copy.slnx", // 解决方案文件路径
+        "./main.vcxproj", // 项目文件路径
+        "/p:Configuration=Release", // 构建配置为 Release
+        // "/p:Configuration=Debug", // 构建配置为 Debug
+        "/p:Platform=x64", // 平台为 x64
+        "/p:TargetName=run_release" // 生成的可执行文件名称
+        // "/p:OutDir=./out/", // 生成位置
+
+        // 构建路径
+        // "/p:IntermediateOutputPath=./build/"
+      ],
+
+      // 将此任务分组为 "build"，并设置为默认构建任务
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    }
+  ]
+}

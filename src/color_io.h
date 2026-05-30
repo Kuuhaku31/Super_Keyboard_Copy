@@ -3,6 +3,7 @@
 
 #include <stdarg.h>
 #include <iostream>
+#include <string>
 
 inline
 void

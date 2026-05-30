@@ -1,3 +1,12 @@
 
 /build/
 /out/
+/bin/
+
+*.code-workspace
+
+.vs/
+x64/
+x86/
+
+_*

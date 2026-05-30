@@ -6,6 +6,18 @@
   "miDebuggerPath": "C:/msys64/mingw64/bin/gdb.exe",
   "configurations": [
     {
+      "name": "main",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "preLaunchTask": "build main",
+      "program": "${workspaceFolder}/bin/Debug/x64/main.exe",
+      "args": ["_text.txt"],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/bin/",
+      "environment": [],
+      "console": "internalConsole"
+    },
+    {
       "name": "test03_debug",
       "type": "cppdbg",
       "request": "launch",
